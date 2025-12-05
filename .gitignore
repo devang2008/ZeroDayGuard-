@@ -47,14 +47,6 @@ Thumbs.db
 *.sqlite
 *.sqlite3
 
-# Large model files (upload separately to GitHub Releases)
-data/models/*.pth
-data/models/*.pt
-data/models/*.h5
-data/models/*.pkl
-*.pth
-*.pt
-
 # Dataset (too large for GitHub)
 data/datasets/*.csv
 data/datasets/*.json
