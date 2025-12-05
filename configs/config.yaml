@@ -1,0 +1,55 @@
+# ZeroDayGuard Configuration File
+
+# Model Configuration
+model:
+  name: "MultiGraphGNN"
+  num_node_features: 64
+  hidden_channels: 128
+  num_layers: 3
+  num_classes: 2
+  dropout: 0.3
+  
+# Training Configuration
+training:
+  learning_rate: 0.001
+  batch_size: 32
+  num_epochs: 100
+  early_stopping_patience: 10
+  validation_split: 0.15
+  test_split: 0.15
+  
+# Data Configuration
+data:
+  dataset_name: "VDISC"
+  raw_data_path: "data/raw/vdisc"
+  processed_data_path: "data/processed"
+  cache_graphs: true
+  
+# GNN Configuration
+gnn:
+  type: "GCN"  # Options: GCN, GAT, GraphSAGE
+  aggregation: "mean"  # Options: mean, max, sum
+  
+# Anomaly Detection (Zero-Day)
+anomaly_detection:
+  enabled: true
+  autoencoder_dim: 64
+  contamination: 0.1
+  
+# API Configuration
+api:
+  host: "0.0.0.0"
+  port: 5000
+  debug: false
+  cors_enabled: true
+  
+# Logging
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  log_file: "logs/zerodayguard.log"
+  
+# Experiment Tracking
+experiment:
+  use_wandb: false
+  project_name: "zerodayguard"
+  entity: "your-username"

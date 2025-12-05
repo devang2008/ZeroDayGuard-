@@ -1,0 +1,31 @@
+batch_size: 32
+class_weights: !!python/object/apply:torch._utils._rebuild_tensor_v2
+- !!python/object/apply:torch.storage._load_from_bytes
+  - !!binary |
+    gAKKCmz8nEb5IGqoUBkugAJN6QMugAJ9cQAoWBAAAABwcm90b2NvbF92ZXJzaW9ucQFN6QNYDQAA
+    AGxpdHRsZV9lbmRpYW5xAohYCgAAAHR5cGVfc2l6ZXNxA31xBChYBQAAAHNob3J0cQVLAlgDAAAA
+    aW50cQZLBFgEAAAAbG9uZ3EHSwR1dS6AAihYBwAAAHN0b3JhZ2VxAGN0b3JjaApGbG9hdFN0b3Jh
+    Z2UKcQFYDQAAADIwMTAyMjY4Njg0NjRxAlgDAAAAY3B1cQNLAk50cQRRLoACXXEAWA0AAAAyMDEw
+    MjI2ODY4NDY0cQFhLgIAAAAAAAAAs9gIPyaB90A=
+- 0
+- !!python/tuple
+  - 2
+- !!python/tuple
+  - 1
+- false
+- !!python/object/apply:collections.OrderedDict
+  - []
+code_feature_dim: 24
+dropout: 0.3
+early_stopping_patience: 10
+graph_feature_dim: 8
+hidden_dim: 128
+learning_rate: 0.001
+max_train_samples: 10000
+max_val_samples: 2000
+model_type: simple
+num_epochs: 50
+num_workers: 0
+train_hdf5_path: data/raw/vdisc/VDISC_train.hdf5
+val_hdf5_path: data/raw/vdisc/VDISC_validate.hdf5
+weight_decay: 1.0e-05

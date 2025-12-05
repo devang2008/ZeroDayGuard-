@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeroDayGuard - AI Vulnerability Scanner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-width="2"/>
+                </svg>
+                <h1>ZeroDayGuard</h1>
+            </div>
+            <nav class="nav">
+                <a href="#scanner" class="nav-link active">Scanner</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#docs" class="nav-link">Documentation</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2 class="hero-title">AI-Powered Vulnerability Detection</h2>
+                <p class="hero-subtitle">Detect SQL Injection, XSS, Buffer Overflow, and 10+ other security vulnerabilities instantly</p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-value">12+</div>
+                        <div class="stat-label">CWE Types</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">1.27M</div>
+                        <div class="stat-label">Training Samples</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">94%</div>
+                        <div class="stat-label">Accuracy</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Scanner -->
+    <main class="main" id="scanner">
+        <div class="container">
+            <!-- Scan Mode Tabs -->
+            <div class="scan-mode-tabs">
+                <button class="tab-btn active" data-tab="single">Single File</button>
+                <button class="tab-btn" data-tab="project">Full Project Scan</button>
+            </div>
+
+            <!-- Single File Scanner -->
+            <div id="single-scanner" class="scanner-grid tab-content active">
+                <!-- Code Editor -->
+                <div class="editor-panel">
+                    <div class="panel-header">
+                        <h3>Code Editor</h3>
+                        <div class="editor-controls">
+                            <select id="languageSelect" class="language-select">
+                                <option value="c">C/C++</option>
+                                <option value="python">Python</option>
+                                <option value="javascript">JavaScript</option>
+                                <option value="php">PHP</option>
+                            </select>
+                            <button id="clearBtn" class="btn btn-secondary">Clear</button>
+                            <button id="scanBtn" class="btn btn-primary">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-width="2"/>
+                                </svg>
+                                Scan Code
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="codeEditor" class="code-editor" placeholder="Paste your code here or select an example from the sidebar..."
+>// Example: SQL Injection Vulnerability
+void login_user(char* username, char* password) {
+    char query[256];
+    sprintf(query, "SELECT * FROM users WHERE username='%s' AND password='%s'", 
+            username, password);
+    mysql_query(conn, query);
+}</textarea>
+                    
+                    <!-- Examples Sidebar -->
+                    <div class="examples-section">
+                        <h4>Example Vulnerabilities</h4>
+                        <div id="examplesContainer" class="examples-grid"></div>
+                    </div>
+                </div>
+
+                <!-- Results Panel -->
+                <div class="results-panel">
+                    <div class="panel-header">
+                        <h3>Scan Results</h3>
+                        <div id="scanStatus" class="scan-status">Ready to scan</div>
+                    </div>
+                    
+                    <div id="resultsContainer" class="results-container">
+                        <div class="empty-state">
+                            <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                                <path d="M12 6v6l4 2" stroke-width="2"/>
+                            </svg>
+                            <p>Click "Scan Code" to analyze for vulnerabilities</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Scanner -->
+            <div id="project-scanner" class="tab-content" style="display: none;">
+                <div class="project-upload-panel">
+                    <div class="panel-header">
+                        <h3>Upload Project (ZIP)</h3>
+                    </div>
+                    
+                    <div class="upload-area" id="uploadArea">
+                        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke-width="2"/>
+                        </svg>
+                        <h3>Drop your project ZIP file here</h3>
+                        <p>or click to browse</p>
+                        <input type="file" id="projectFile" accept=".zip" style="display: none;">
+                        <button id="browseBtn" class="btn btn-primary" style="margin-top: 1rem;">Browse Files</button>
+                        
+                        <div class="upload-info">
+                            <p><strong>Supported:</strong> C/C++, Python, JavaScript, Java, PHP, Go, Rust, C#, Ruby, Perl</p>
+                            <p><strong>Max size:</strong> 100MB</p>
+                        </div>
+                    </div>
+                    
+                    <div id="uploadStatus" class="upload-status" style="display: none;">
+                        <div class="status-text">Uploading and scanning...</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Results -->
+                <div id="projectResults" class="project-results" style="display: none;">
+                    <div class="panel-header">
+                        <h3>Project Scan Report</h3>
+                        <button id="newScanBtn" class="btn btn-secondary">New Scan</button>
+                    </div>
+                    <div id="projectReportContainer"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3>Code Analysis</h3>
+                    <p>Parses source code and extracts 24+ features including LOC, complexity, and function patterns</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Pattern Detection</h3>
+                    <p>Identifies dangerous functions and CWE-specific vulnerability patterns</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>ML Prediction</h3>
+                    <p>Neural network classifies code as safe or vulnerable with confidence scores</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💡</div>
+                    <h3>Recommendations</h3>
+                    <p>Provides actionable security advice and safer coding alternatives</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 ZeroDayGuard | Powered by PyTorch & VDISC Dataset</p>
+            <p class="footer-subtitle">Protecting code from cyber attacks</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechMart - Your Premium Tech Store</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1><i class="fas fa-shopping-bag"></i> TechMart</h1>
+            <nav>
+                <a href="#" onclick="showPage('home')"><i class="fas fa-home"></i> Home</a>
+                <a href="#" onclick="showPage('products')"><i class="fas fa-laptop"></i> Products</a>
+                <a href="#" onclick="showPage('admin')"><i class="fas fa-shield-alt"></i> Test Vulns</a>
+                <a href="#" onclick="showPage('cart')"><i class="fas fa-shopping-cart"></i> Cart (<span id="cartCount">0</span>)</a>
+                <div id="userNav">
+                    <a href="#" onclick="showPage('login')"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    <a href="#" onclick="showPage('register')"><i class="fas fa-user-plus"></i> Register</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Home Page -->
+        <div id="homePage" class="page active">
+            <div class="hero-section">
+                <h2>Welcome to TechMart</h2>
+                <p class="subtitle">Your Premium Destination for Cutting-Edge Technology</p>
+                <button onclick="showPage('products')" class="btn btn-primary btn-large">
+                    <i class="fas fa-shopping-bag"></i> Start Shopping
+                </button>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <i class="fas fa-fire feature-icon"></i>
+                    <h3>Hot Deals</h3>
+                    <p>Amazing discounts on latest electronics and gadgets</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-truck-fast feature-icon"></i>
+                    <h3>Fast Shipping</h3>
+                    <p>Free delivery on all orders over $50</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-shield-halved feature-icon"></i>
+                    <h3>Quality Guaranteed</h3>
+                    <p>100% authentic products with warranty</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-headset feature-icon"></i>
+                    <h3>24/7 Support</h3>
+                    <p>Customer service always available</p>
+                </div>
+            </div>
+            
+            <div class="promo-banner">
+                <h3><i class="fas fa-gift"></i> Special Offer: Get 20% off on your first purchase!</h3>
+                <p>Use code: WELCOME20 at checkout</p>
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div id="loginPage" class="page">
+            <div class="auth-form">
+                <div class="auth-header">
+                    <i class="fas fa-user-circle"></i>
+                    <h2>Welcome Back</h2>
+                    <p>Login to your account</p>
+                </div>
+                <form onsubmit="login(event)">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Username</label>
+                        <input type="text" id="loginUsername" placeholder="Enter your username" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                    </div>
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="rememberMe"> Remember me
+                        </label>
+                        <a href="#" class="forgot-link">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                </form>
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="#" onclick="showPage('register')">Create one now</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Page -->
+        <div id="registerPage" class="page">
+            <div class="auth-form">
+                <div class="auth-header">
+                    <i class="fas fa-user-plus"></i>
+                    <h2>Create Account</h2>
+                    <p>Join TechMart today</p>
+                </div>
+                <form onsubmit="register(event)">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Username</label>
+                        <input type="text" id="regUsername" placeholder="Choose a username" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="regEmail" placeholder="your.email@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Password</label>
+                        <input type="password" id="regPassword" placeholder="Create a strong password" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" required> I agree to the Terms of Service and Privacy Policy
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+                </form>
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="#" onclick="showPage('login')">Sign in here</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Page -->
+        <div id="productsPage" class="page">
+            <div class="page-header">
+                <h2><i class="fas fa-laptop"></i> Our Products</h2>
+                <p>Browse our premium collection of tech products</p>
+            </div>
+            
+            <div class="products-controls">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search... (Try: ' OR 1=1-- for SQL injection)" onkeyup="searchProducts()">
+                    <p class="hint-text" style="font-size: 12px; color: #666; margin-top: 5px;">⚠️ SQL Injection test: <code>' OR 1=1--</code></p>
+                </div>
+                <div class="filter-controls">
+                    <select id="sortBy" onchange="sortProducts()">
+                        <option value="name">Sort by Name</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="popularity">Popularity</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="productsList" class="products-grid"></div>
+        </div>
+
+        <!-- Product Detail -->
+        <div id="productDetailPage" class="page">
+            <button onclick="showPage('products')" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Back to Products
+            </button>
+            <div id="productDetail"></div>
+            
+            <div class="comments-section">
+                <h3><i class="fas fa-star"></i> Customer Reviews</h3>
+                <div class="reviews-summary">
+                    <div class="rating-overview">
+                        <div class="rating-number">4.5</div>
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <div class="rating-count">Based on 127 reviews</div>
+                    </div>
+                </div>
+                
+                <div id="commentsList"></div>
+                
+                <div class="add-comment">
+                    <h4>Write a Review</h4>
+                    <p class="hint-text" style="color: #e74c3c; font-size: 13px;">⚠️ XSS Test: Try <code>&lt;script&gt;alert('XSS')&lt;/script&gt;</code> or <code>&lt;img src=x onerror=alert('XSS')&gt;</code></p>
+                    <div class="rating-input">
+                        <label>Your Rating:</label>
+                        <div class="stars-input">
+                            <i class="far fa-star" data-rating="1"></i>
+                            <i class="far fa-star" data-rating="2"></i>
+                            <i class="far fa-star" data-rating="3"></i>
+                            <i class="far fa-star" data-rating="4"></i>
+                            <i class="far fa-star" data-rating="5"></i>
+                        </div>
+                    </div>
+                    <textarea id="commentText" placeholder="Share your experience with this product..." rows="5"></textarea>
+                    <button onclick="addComment()" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Submit Review
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cart Page -->
+        <div id="cartPage" class="page">
+            <div class="page-header">
+                <h2><i class="fas fa-shopping-cart"></i> Shopping Cart</h2>
+                <p>Review your items</p>
+            </div>
+            <div class="cart-content">
+                <div id="cartItems" class="cart-items-list"></div>
+                <div class="cart-summary">
+                    <h3>Order Summary</h3>
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="cartSubtotal">$0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping:</span>
+                        <span id="cartShipping">Free</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax:</span>
+                        <span id="cartTax">$0.00</span>
+                    </div>
+                    <hr>
+                    <div class="summary-row total">
+                        <span>Total:</span>
+                        <span id="cartTotal">$0.00</span>
+                    </div>
+                    <button onclick="checkout()" class="btn btn-primary btn-block">
+                        <i class="fas fa-credit-card"></i> Proceed to Checkout
+                    </button>
+                    <button onclick="showPage('products')" class="btn btn-secondary btn-block">
+                        <i class="fas fa-arrow-left"></i> Continue Shopping
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div id="profilePage" class="page">
+            <div class="page-header">
+                <h2><i class="fas fa-user"></i> My Profile</h2>
+                <p>Manage your account settings</p>
+            </div>
+            <div class="profile-container">
+                <div class="profile-sidebar">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h3 id="profileUsername"></h3>
+                    <p id="profileRole" class="profile-role"></p>
+                </div>
+                <div class="profile-content">
+                    <div class="profile-section">
+                        <h3><i class="fas fa-info-circle"></i> Account Information</h3>
+                        <p class="hint-text">⚠️ CSRF Vulnerability: No CSRF token protection</p>
+                        <form onsubmit="updateProfile(event)">
+                            <div class="form-group">
+                                <label><i class="fas fa-envelope"></i> Email Address</label>
+                                <input type="email" id="profileEmail" required>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-phone"></i> Phone Number</label>
+                                <input type="tel" id="profilePhone" placeholder="(555) 123-4567">
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </form>
+                    </div>
+                    <div class="profile-section">
+                        <h3><i class="fas fa-box"></i> Order History</h3>
+                        <p class="text-muted">You haven't placed any orders yet.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Panel (for testing vulnerabilities) -->
+        <div id="adminPage" class="page">
+            <div class="page-header">
+                <h2><i class="fas fa-cog"></i> Admin Panel</h2>
+                <p>Test vulnerability exploits</p>
+            </div>
+            
+            <div class="admin-sections">
+                <!-- Command Injection Test -->
+                <div class="admin-card">
+                    <h3><i class="fas fa-terminal"></i> Command Injection (CWE-78)</h3>
+                    <p class="hint-text">⚠️ Try: <code>test.jpg; dir</code> or <code>test.jpg && whoami</code></p>
+                    <div class="form-group">
+                        <label>Image Processing:</label>
+                        <input type="text" id="imageProcess" placeholder="Enter image filename" value="test.jpg">
+                    </div>
+                    <button onclick="processImage()" class="btn btn-primary">
+                        <i class="fas fa-play"></i> Process Image
+                    </button>
+                    <div id="cmdOutput" class="output-box"></div>
+                </div>
+
+                <!-- Path Traversal Test -->
+                <div class="admin-card">
+                    <h3><i class="fas fa-folder-open"></i> Path Traversal (CWE-22)</h3>
+                    <p class="hint-text">⚠️ Try: <code>../../database/ecommerce.db</code> or <code>..\..\..\Windows\System32\drivers\etc\hosts</code></p>
+                    <div class="form-group">
+                        <label>Download File:</label>
+                        <input type="text" id="fileDownload" placeholder="Enter file path" value="example.txt">
+                    </div>
+                    <button onclick="downloadFile()" class="btn btn-primary">
+                        <i class="fas fa-download"></i> Download File
+                    </button>
+                    <div id="downloadOutput" class="output-box"></div>
+                </div>
+
+                <!-- Directory Listing Test -->
+                <div class="admin-card">
+                    <h3><i class="fas fa-list"></i> Directory Listing (CWE-548)</h3>
+                    <p class="hint-text">⚠️ Try: <code>.</code> or <code>..</code> or <code>C:\Windows</code></p>
+                    <div class="form-group">
+                        <label>List Directory:</label>
+                        <input type="text" id="dirList" placeholder="Enter directory path" value=".">
+                    </div>
+                    <button onclick="listDirectory()" class="btn btn-primary">
+                        <i class="fas fa-list"></i> List Files
+                    </button>
+                    <div id="dirOutput" class="output-box"></div>
+                </div>
+
+                <!-- SSRF Test -->
+                <div class="admin-card">
+                    <h3><i class="fas fa-globe"></i> SSRF (CWE-918)</h3>
+                    <p class="hint-text">⚠️ Try: <code>http://localhost:3000/api/debug</code> or <code>file:///etc/passwd</code></p>
+                    <div class="form-group">
+                        <label>Fetch Image URL:</label>
+                        <input type="text" id="fetchUrl" placeholder="Enter URL" value="https://example.com/image.jpg">
+                    </div>
+                    <button onclick="fetchImage()" class="btn btn-primary">
+                        <i class="fas fa-image"></i> Fetch Image
+                    </button>
+                    <div id="ssrfOutput" class="output-box"></div>
+                </div>
+
+                <!-- Debug Info (Hard-coded Credentials) -->
+                <div class="admin-card">
+                    <h3><i class="fas fa-bug"></i> Debug Info (CWE-798)</h3>
+                    <p class="hint-text">⚠️ Exposes hard-coded credentials and sensitive data</p>
+                    <button onclick="getDebugInfo()" class="btn btn-danger">
+                        <i class="fas fa-eye"></i> View Debug Info
+                    </button>
+                    <div id="debugOutput" class="output-box"></div>
+                </div>
+
+                <!-- IDOR Test -->
+                <div class="admin-card">
+                    <h3><i class="fas fa-user-secret"></i> IDOR (CWE-639)</h3>
+                    <p class="hint-text">⚠️ Try accessing other users: ID 1, 2, 3, etc.</p>
+                    <div class="form-group">
+                        <label>User ID:</label>
+                        <input type="number" id="userId" placeholder="Enter user ID" value="1">
+                    </div>
+                    <button onclick="getUserData()" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Get User Data
+                    </button>
+                    <div id="idorOutput" class="output-box"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4><i class="fas fa-shopping-bag"></i> TechMart</h4>
+                <p>Your trusted destination for premium technology products.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Customer Service</h4>
+                <ul>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="#">Track Order</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Newsletter</h4>
+                <p>Subscribe to get special offers and updates</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Your email">
+                    <button><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 TechMart. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
